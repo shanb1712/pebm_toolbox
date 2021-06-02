@@ -1,4 +1,5 @@
-from pebm_pkg.Extract_mor_features import extraction_MOR_features
+
+#conda from pebm_pkg.Extract_mor_features import extraction_MOR_features
 #from Extract_mor_features import
 import scipy.io as spio
 import numpy as np
