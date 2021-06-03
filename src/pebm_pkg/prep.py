@@ -3,40 +3,42 @@ import sys
 sys.path.append("/afib/parser/utils")
 sys.path.append("/afib/preprocessing")
 sys.path.append("/afib")
-import csv
-import os
-import h5py
+
 import mne
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-import physionet_matlab
-import scipy
-import wfdb.processing
-import consts as cts
-import pathlib
 from scipy.signal import savgol_filter, butter, sosfreqz, sosfiltfilt
 
 
+def cut_signal(signal, signal_freq, start_time, end_time):
+    if start_time > end_time:
+        return 1
+    if start_time > len(signal)*(1/signal_freq) or end_time > len(signal)*(1/signal_freq):
+        return 1
 
-bandpass_filter(ecg_lead, id, l, 0.67, 100, fs, 75, debug=False)
+    start_sample = np.floor(start_time*signal_freq)
+    end_sample = np.floor(start_time * signal_freq)
+    return signal[start_sample: end_sample]
 
 
+def notch_filter(signal, signal_freq, pl_freq):
+    y = mne.filter.notch_filter(signal.astype(np.float), signal_freq, freqs=pl_freq)
+    return y
 
-def bandpass_filter(data, id, lead, lowcut, highcut, signal_freq, filter_order, debug=False):
-    """This function uses a Butterworth filter. The coefficoents are computed automatically. Lowcut and highcut are in Hz"""
+
+def bandpass_filter(signal,signal_freq):
+    """
+    This function uses a Butterworth filter. The coefficoents are computed automatically.
+    Lowcut and highcut are in Hz
+    """
+    filter_order = 75 #??
+    low_cut = 0.67
+    high_cut = 100
+
     nyquist_freq = 0.5 * signal_freq
-    low = lowcut / nyquist_freq
-    high = highcut / nyquist_freq
+    low = low_cut / nyquist_freq
+    high = high_cut / nyquist_freq
     sos = butter(filter_order, [low, high], btype="band", output='sos', analog=False)
-    y = sosfiltfilt(sos, data)
-    y = mne.filter.notch_filter(y.astype(np.float), signal_freq, freqs=60, verbose=debug)
-    if debug:
-        filename_freq = "exam_" + str(id) + "_lead_" + str(lead) + ".png"
-        filename_spect = "exam_" + str(id) + "_lead_" + str(lead) + "_spect.png"
-
-        # get_freq_plot(data, y, sos, filter_order, signal_freq, filename_freq)
-        get_spect_plot(data, y, signal_freq, filename_spect, dpi=400)
+    y = sosfiltfilt(sos, signal)
     return y
 
 
