@@ -43,12 +43,12 @@ signal_f =pre.notch(50)
 signal_f= pre.bpfilt()
 t = np.linspace(0,30*60, 30*60*200)
 
-
-fig = plt.figure()
-plt.style.use('bmh')
-x1, = plt.plot(t[0:1999], signal[0:1999], 'b')
-x2, = plt.plot(t[0:1999], signal_f[0:1999], 'r')
-plt. show()
+#
+# fig = plt.figure()
+# plt.style.use('bmh')
+# x1, = plt.plot(t[0:1999], signal[0:1999], 'b')
+# x2, = plt.plot(t[0:1999], signal_f[0:1999], 'r')
+# plt. show()
 
 obm = Biomarkers(signal, freq, features_dict)
 ints, stat = obm.intervals()

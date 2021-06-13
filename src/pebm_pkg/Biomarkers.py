@@ -16,7 +16,7 @@ class Biomarkers:
 
         if position is None:
             fp = FiducialPoints(signal, fs)
-            position = fp.compute_fiducial()
+            position = fp.wavedet()
         self.position = position
 
     def intervals(self):
