@@ -1,10 +1,8 @@
-import random
 
-import matplotlib.pyplot as plt
+
 import numpy as np
 import scipy.io as sio
 import scipy.signal as signal
-
 from scipy.signal import butter, lfilter
 import os
 import math
