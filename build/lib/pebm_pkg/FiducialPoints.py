@@ -8,7 +8,7 @@ class FiducialPoints:
             pre = Preprocessing(signal, fs)
         self.peaks= peaks
 
-    def compute_fiducial(self):
+    def wavedet(self):
         signal = self.signal
         fs = self.fs
         peaks = self.peaks
