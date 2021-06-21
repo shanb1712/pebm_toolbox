@@ -30,9 +30,9 @@ class Preprocessing:
         fs = self.fs
         self.notch_freq = notch_freq
         # notch_freq have to be 50 or 60 HZ (make that condition)
-        y = mne.filter.notch_filter(signal.astype(np.float), fs, freqs=notch_freq)
-        self.signal =y
-        return y
+        fsig = mne.filter.notch_filter(signal.astype(np.float), fs, freqs=notch_freq)
+        self.signal =fsig
+        return fsig
 
 
     def bpfilt(self):
@@ -53,15 +53,15 @@ class Preprocessing:
             sos = butter(filter_order, low, btype="high", output='sos', analog=False)
         else:
             sos = butter(filter_order, [low, high], btype="band", output='sos', analog=False)
-        y = sosfiltfilt(sos, signal)
-        self.signal = y
-        return y
+        fsig = sosfiltfilt(sos, signal)
+        self.signal = fsig
+        return fsig
 
     def bsqi(self):
         bsqi =0
         return bsqi
 
-    def jqrs(self):
+    def epltd(self):
         peaks = None
         return peaks
 

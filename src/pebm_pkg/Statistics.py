@@ -6,6 +6,7 @@ def statistics(data_dict):
     #stat_dict = dict(names=['mean', 'median', 'min', 'max', 'iqr', 'std'])
     stat_dict= {}
     for i in data_dict:
+        data =[]
         data = data_dict[i]
         data = data[data != -1]
         mean_ = np.mean(data)

@@ -2,13 +2,9 @@ LICENSE
 README.md
 pyproject.toml
 setup.cfg
-src/pebm_pkg/Biomarkers.py
 src/pebm_pkg/Extract_mor_features.py
-src/pebm_pkg/FiducialPoints.py
 src/pebm_pkg/Intervals_duration.py
-src/pebm_pkg/Preprocessing.py
 src/pebm_pkg/Preprocessing_features.py
-src/pebm_pkg/Statistics.py
 src/pebm_pkg/Waves_characteristics.py
 src/pebm_pkg/prep.py
 src/pebm_pkg.egg-info/PKG-INFO

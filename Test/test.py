@@ -1,6 +1,7 @@
 
 from pebm_pkg.Preprocessing import *
 from pebm_pkg.Biomarkers import *
+from pebm_pkg.fecgyn_tgen import *
 import matplotlib.pyplot as plt
 import scipy.io as spio
 import numpy as np
@@ -31,16 +32,17 @@ for i, key in enumerate(all_keys):
 features_dict = dict(zip(position_keys, position_values))
 
 signal = np.asarray(ecg_mat['ecg']).squeeze()
-signal= signal[:-1]
+peaks = np.asarray(ecg_mat['peaks']).squeeze()
 freq = ecg_mat['fs'][0,0]
+#tt =fecgyn_tgen(signal, peaks, freq)
+
+signal= signal[:-1]
+
 # build a dictinary
-
-
-
 # try Extract_mor_features
 pre = Preprocessing(signal, freq)
-signal_f =pre.notch(50)
-signal_f= pre.bpfilt()
+fsig =pre.notch(50)
+fsig= pre.bpfilt()
 t = np.linspace(0,30*60, 30*60*200)
 
 #
@@ -50,8 +52,9 @@ t = np.linspace(0,30*60, 30*60*200)
 # x2, = plt.plot(t[0:1999], signal_f[0:1999], 'r')
 # plt. show()
 
-obm = Biomarkers(signal, freq, features_dict)
-ints, stat = obm.intervals()
 
+obm = Biomarkers(signal, freq, features_dict)
+ints, stat_i = obm.intervals()
+waves, stat_w = obm.waves()
 
 a = 5

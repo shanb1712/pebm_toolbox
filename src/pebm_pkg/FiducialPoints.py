@@ -1,3 +1,4 @@
+from pebm_pkg.Preprocessing  import *
 
 class FiducialPoints:
 
@@ -13,6 +14,6 @@ class FiducialPoints:
         fs = self.fs
         peaks = self.peaks
         #exe from snir
-        position = 0
-        return position
+        fiducials = 0
+        return fiducials
 
