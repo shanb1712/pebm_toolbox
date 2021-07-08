@@ -4,6 +4,7 @@ import os
 import json
 import numpy as np
 import warnings
+from scipy.io import loadmat
 
 # Classes import
 from src.pebm_pkg.Biomarkers import Biomarkers
@@ -17,12 +18,12 @@ from src.pebm_pkg.Waves_characteristics import *
 from src.pebm_pkg.Statistics import *
 
 
-def biomarkers_intervals(signal, **kwargs):
-    bm = Biomarkers(signal, **kwargs)
+def biomarkers_intervals(signal, fiducial_points, **kwargs):
+    bm = Biomarkers(signal, fiducials=fiducial_points,  **kwargs)
     return bm.intervals()
 
-def biomarkers_waves(signal, **kwargs):
-    bm = Biomarkers(signal, **kwargs)
+def biomarkers_waves(signal, fiducial_points, **kwargs):
+    bm = Biomarkers(signal, fiducials=fiducial_points, **kwargs)
     return bm.waves()
 
 def fiducial_points(signal, **kwargs):
@@ -72,11 +73,16 @@ if __name__ == "__main__":
     if len(sys.argv) < 2:
         raise InvalidArgsException()
     else:
-        # Arguments Processing
+        # Command line arguments: 
+        # <exe> <signal path> <fiducials points path> <function name> <args...>
         signal_path = sys.argv[1]
         signal = read_signal_file(signal_path)
-        func_name = sys.argv[2]
-        func_args = json.loads(str(sys.argv[3])) if len(sys.argv)>3 else None
+        
+        fiducial_points_path = sys.argv[2]
+        fiducial_points = loadmat(fiducial_points_path)
+        
+        func_name = sys.argv[3]
+        func_args = json.loads(str(sys.argv[4])) if len(sys.argv)>3 else None
 
         # Function Call
         if func_name not in globals().keys():
@@ -85,11 +91,11 @@ if __name__ == "__main__":
             func = globals()[func_name]
             try:
                 if isinstance(func_args, list):
-                    res = func(signal, *func_args)
+                    res = func(signal, fiducial_points *func_args)
                 elif isinstance(func_args, dict):
-                    res = func(signal, **func_args)
+                    res = func(signal, fiducial_points **func_args)
                 elif func_args is None:
-                    res = func(signal)
+                    res = func(signal, fiducial_points)
                 if isinstance(res, np.ndarray):
                     print(json.dumps(res.tolist()))
                 else:

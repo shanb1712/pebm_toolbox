@@ -1,5 +1,3 @@
-import pandas as pd
-#from pebm_pkg.Preprocessing_features import compute_mean, compute_median, compute_std, minimum, maximum
 import numpy as np
 
 def compute_Amp(ecg, freq, features_dict, factor=1000):

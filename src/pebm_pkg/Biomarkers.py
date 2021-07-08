@@ -5,7 +5,7 @@ from src.pebm_pkg.Waves_characteristics import *
 from src.pebm_pkg.Statistics import *
 
 class Biomarkers:
-    def __init__(self, signal, fs, fiducials =None):
+    def __init__(self, signal, fs, fiducials=None):
         self.signal = signal
         self.fs = fs
         self.fiducials = fiducials
