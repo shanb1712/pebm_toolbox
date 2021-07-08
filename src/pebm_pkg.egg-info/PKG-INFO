@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: pebm-pkg
+Version: 0.0.2
+Summary: PhysioZoo ECG: Digital electrocardiography biomarkers to assess cardiac conduction
+Home-page: https://github.com/aim-lab/pebm_toolbox/
+Author: Sheina Gendelman
+Author-email: sheina@campus.technion.ac.il
+License: UNKNOWN
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.6
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+Long and intresting description of the toolbox
+
+
