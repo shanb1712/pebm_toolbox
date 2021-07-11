@@ -20,11 +20,13 @@ from src.pebm_pkg.Statistics import *
 
 def biomarkers_intervals(signal, fiducial_points, **kwargs):
     bm = Biomarkers(signal, fiducials=fiducial_points,  **kwargs)
-    return bm.intervals()
+    intv, stat_int = bm.intervals()
+    return stat_int
 
 def biomarkers_waves(signal, fiducial_points, **kwargs):
     bm = Biomarkers(signal, fiducials=fiducial_points, **kwargs)
-    return bm.waves()
+    waves, stat_wav = bm.waves()
+    return stat_wav
 
 def fiducial_points(signal, **kwargs):
     fp = FiducialPoints(signal, **kwargs)
@@ -81,6 +83,25 @@ if __name__ == "__main__":
         fiducial_points_path = sys.argv[2]
         fiducial_points = loadmat(fiducial_points_path)
         
+        keys = ["Pon", "P", "Poff", "QRSon", "Q", "qrs", "S", "QRSoff", "Ton", "T", "Toff", "Ttipo", "Ttipoon", "Ttipooff"]
+
+        position = fiducial_points['fud_points'][0,0]
+        all_keys = fiducial_points['fud_points'].dtype.names
+        position_values =[]
+        position_keys =[]
+        # preprocess the position arrays
+        #-----------------------------------
+        for i, key in enumerate(all_keys):
+            ret_val = position[i].squeeze()
+            if (keys.__contains__(key)):
+                ret_val[np.isnan(ret_val)] = -1
+                ret_val = np.asarray(ret_val, dtype=np.int64)
+                position_values.append(ret_val.astype(int))
+                position_keys.append(key)
+        #-----------------------------------
+        features_dict = dict(zip(position_keys, position_values))
+
+
         func_name = sys.argv[3]
         func_args = json.loads(str(sys.argv[4])) if len(sys.argv)>3 else None
 
@@ -91,11 +112,11 @@ if __name__ == "__main__":
             func = globals()[func_name]
             try:
                 if isinstance(func_args, list):
-                    res = func(signal, fiducial_points *func_args)
+                    res = func(signal, features_dict, *func_args)
                 elif isinstance(func_args, dict):
-                    res = func(signal, fiducial_points **func_args)
+                    res = func(signal, features_dict, **func_args)
                 elif func_args is None:
-                    res = func(signal, fiducial_points)
+                    res = func(signal, features_dict)
                 if isinstance(res, np.ndarray):
                     print(json.dumps(res.tolist()))
                 else:
