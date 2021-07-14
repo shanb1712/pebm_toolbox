@@ -21,12 +21,14 @@ from src.pebm_pkg.Statistics import *
 def biomarkers_intervals(signal, fiducial_points, **kwargs):
     bm = Biomarkers(signal, fiducials=fiducial_points,  **kwargs)
     intv, stat_int = bm.intervals()
-    return stat_int
+    # return stat_int
+    return intv, stat_int
 
 def biomarkers_waves(signal, fiducial_points, **kwargs):
     bm = Biomarkers(signal, fiducials=fiducial_points, **kwargs)
     waves, stat_wav = bm.waves()
-    return stat_wav
+    # return stat_wav
+    return waves, stat_wav
 
 def fiducial_points(signal, **kwargs):
     fp = FiducialPoints(signal, **kwargs)
